@@ -1,29 +1,32 @@
 {
-    "name": ":vendor_slug/:package_slug",
-    "description": ":package_description",
+    "name": "spatie/laravel-markdown-response",
+    "description": "Serve markdown versions of your HTML pages to AI agents and bots",
     "keywords": [
-        ":vendor_name",
+        "spatie",
         "laravel",
-        ":package_slug"
+        "markdown",
+        "ai",
+        "bot"
     ],
-    "homepage": "https://github.com/:vendor_slug/:package_slug",
+    "homepage": "https://github.com/spatie/laravel-markdown-response",
     "license": "MIT",
     "authors": [
         {
-            "name": ":author_name",
-            "email": "author@domain.com",
+            "name": "Freek Van der Herten",
+            "email": "freek@spatie.be",
             "role": "Developer"
         }
     ],
     "require": {
         "php": "^8.4",
-        "spatie/laravel-package-tools": "^1.16",
-        "illuminate/contracts": "^11.0||^12.0"
+        "illuminate/contracts": "^11.0||^12.0",
+        "league/html-to-markdown": "^5.1",
+        "spatie/laravel-package-tools": "^1.16"
     },
     "require-dev": {
         "laravel/pint": "^1.14",
-        "nunomaduro/collision": "^8.8",
         "larastan/larastan": "^3.0",
+        "nunomaduro/collision": "^8.8",
         "orchestra/testbench": "^10.0.0||^9.0.0",
         "pestphp/pest": "^4.0",
         "pestphp/pest-plugin-arch": "^4.0",
@@ -35,13 +38,12 @@
     },
     "autoload": {
         "psr-4": {
-            "VendorName\\Skeleton\\": "src/",
-            "VendorName\\Skeleton\\Database\\Factories\\": "database/factories/"
+            "Spatie\\MarkdownResponse\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "VendorName\\Skeleton\\Tests\\": "tests/",
+            "Spatie\\MarkdownResponse\\Tests\\": "tests/",
             "Workbench\\App\\": "workbench/app/"
         }
     },
@@ -63,10 +65,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "VendorName\\Skeleton\\SkeletonServiceProvider"
+                "Spatie\\MarkdownResponse\\MarkdownResponseServiceProvider"
             ],
             "aliases": {
-                "Skeleton": "VendorName\\Skeleton\\Facades\\Skeleton"
+                "Markdown": "Spatie\\MarkdownResponse\\Facades\\Markdown"
             }
         }
     },

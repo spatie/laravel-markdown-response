@@ -1,0 +1,40 @@
+<?php
+
+use Spatie\MarkdownResponse\Facades\Markdown;
+use Spatie\MarkdownResponse\HtmlToMarkdownConverter;
+
+it('converts html to markdown via the converter', function () {
+    $converter = app(HtmlToMarkdownConverter::class);
+
+    $markdown = $converter->convert('<h1>Hello</h1><p>World</p>');
+
+    expect($markdown)->toContain('Hello')
+        ->toContain('World');
+});
+
+it('runs preprocessors before converting', function () {
+    config()->set('markdown-response.preprocessors', [
+        Spatie\MarkdownResponse\Preprocessors\RemoveScriptsAndStyles::class,
+    ]);
+
+    $converter = app(HtmlToMarkdownConverter::class);
+
+    $markdown = $converter->convert('<h1>Hello</h1><script>alert("xss")</script>');
+
+    expect($markdown)->toContain('Hello')
+        ->not->toContain('alert');
+});
+
+it('works via the facade', function () {
+    $markdown = Markdown::convert('<h1>Hello</h1>');
+
+    expect($markdown)->toContain('Hello');
+});
+
+it('can switch drivers via using()', function () {
+    $converter = app(HtmlToMarkdownConverter::class);
+    $newConverter = $converter->using('league');
+
+    expect($newConverter)->not->toBe($converter);
+    expect($newConverter->convert('<h1>Test</h1>'))->toContain('Test');
+});
