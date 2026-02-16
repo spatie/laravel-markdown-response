@@ -26,4 +26,3 @@ it('respects configured options', function () {
 
     expect($markdown)->toBeString();
 });
-
