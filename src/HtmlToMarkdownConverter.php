@@ -3,6 +3,7 @@
 namespace Spatie\MarkdownResponse;
 
 use Spatie\MarkdownResponse\Drivers\MarkdownDriver;
+use Spatie\MarkdownResponse\Postprocessors\Postprocessor;
 use Spatie\MarkdownResponse\Preprocessors\Preprocessor;
 
 class HtmlToMarkdownConverter
@@ -15,7 +16,9 @@ class HtmlToMarkdownConverter
     {
         $html = $this->runPreprocessors($html);
 
-        return $this->driver->convert($html);
+        $markdown = $this->driver->convert($html);
+
+        return $this->runPostprocessors($markdown);
     }
 
     public function using(string $driverName): static
@@ -37,5 +40,19 @@ class HtmlToMarkdownConverter
         }
 
         return $html;
+    }
+
+    protected function runPostprocessors(string $markdown): string
+    {
+        $postprocessors = config('markdown-response.postprocessors', []);
+
+        foreach ($postprocessors as $postprocessorClass) {
+            /** @var Postprocessor $postprocessor */
+            $postprocessor = app($postprocessorClass);
+
+            $markdown = $postprocessor($markdown);
+        }
+
+        return $markdown;
     }
 }

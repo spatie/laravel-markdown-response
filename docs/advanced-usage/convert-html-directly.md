@@ -1,6 +1,6 @@
 ---
 title: Convert HTML directly
-weight: 4
+weight: 5
 ---
 
 Besides automatic conversion via the middleware, you can convert HTML to markdown anywhere in your code using the `Markdown` facade:

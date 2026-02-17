@@ -1,6 +1,6 @@
 ---
 title: Listen to conversion events
-weight: 3
+weight: 4
 ---
 
 If you need to monitor or react to conversions, the package fires events at key moments in the process.

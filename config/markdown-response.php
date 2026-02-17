@@ -2,6 +2,8 @@
 
 use Spatie\MarkdownResponse\Actions\DetectsMarkdownRequest;
 use Spatie\MarkdownResponse\Actions\GeneratesCacheKey;
+use Spatie\MarkdownResponse\Postprocessors\CollapseBlankLinesPostprocessor;
+use Spatie\MarkdownResponse\Postprocessors\RemoveHtmlTagsPostprocessor;
 use Spatie\MarkdownResponse\Preprocessors\RemoveScriptsAndStylesPreprocessor;
 
 return [
@@ -62,6 +64,15 @@ return [
      */
     'preprocessors' => [
         RemoveScriptsAndStylesPreprocessor::class,
+    ],
+
+    /*
+     * Postprocessors are run on the markdown after conversion.
+     * Each class must implement the Postprocessor interface.
+     */
+    'postprocessors' => [
+        RemoveHtmlTagsPostprocessor::class,
+        CollapseBlankLinesPostprocessor::class,
     ],
 
     'cache' => [

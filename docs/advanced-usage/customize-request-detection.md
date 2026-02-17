@@ -1,6 +1,6 @@
 ---
 title: Customize request detection
-weight: 2
+weight: 3
 ---
 
 The built-in detector handles most cases, but you can fine-tune which detection methods are active or replace the detector entirely.

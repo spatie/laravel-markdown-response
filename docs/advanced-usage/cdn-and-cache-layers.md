@@ -1,6 +1,6 @@
 ---
 title: CDN and cache layers
-weight: 5
+weight: 6
 ---
 
 When you serve both HTML and markdown from the same URL, external cache layers can cause problems. The package includes a `Vary: Accept` header on markdown responses, but not all CDNs respect it.
