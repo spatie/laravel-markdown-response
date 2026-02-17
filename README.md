@@ -15,7 +15,7 @@
 
 </div>
 
-AI agents increasingly consume web content. This package lets your Laravel app serve markdown versions of HTML pages — detected via `Accept: text/markdown` header, known AI user agent patterns, or `.md` URL suffix. The conversion is driver-based (local PHP, Cloudflare Workers AI, or markdown.new), results are cached, and HTML can be preprocessed before conversion.
+AI agents increasingly consume web content. This package lets your Laravel app serve markdown versions of HTML pages. Markdown requests are detected via `Accept: text/markdown` header, known AI user agent patterns, or `.md` URL suffix. The conversion is driver-based (local PHP, Cloudflare Workers AI, or markdown.new), results are cached, and HTML can be preprocessed before conversion.
 
 Here's a quick example:
 
