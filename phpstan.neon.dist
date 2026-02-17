@@ -6,3 +6,8 @@ parameters:
     paths:
         - src
     tmpDir: build/phpstan
+    ignoreErrors:
+        -
+            identifier: booleanNot.alwaysFalse
+            path: src/Support/AttributeReader.php
+            reportUnmatched: false

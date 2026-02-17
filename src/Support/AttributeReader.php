@@ -14,7 +14,6 @@ class AttributeReader
      */
     public static function getFirstAttribute(Request $request, array $attributeClasses): ?object
     {
-        /** @phpstan-ignore booleanNot.alwaysFalse */
         if (! $request->route()) {
             return null;
         }
