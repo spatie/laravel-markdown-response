@@ -10,6 +10,7 @@ use Spatie\MarkdownResponse\Actions\DetectsMarkdownRequest;
 use Spatie\MarkdownResponse\Actions\GeneratesCacheKey;
 use Spatie\MarkdownResponse\Attributes\DoNotProvideMarkdown;
 use Spatie\MarkdownResponse\Attributes\ProvideMarkdown;
+use Spatie\MarkdownResponse\Enums\DetectionMethod;
 use Spatie\MarkdownResponse\Events\ConvertedToMarkdownEvent;
 use Spatie\MarkdownResponse\Events\ConvertingToMarkdownEvent;
 use Spatie\MarkdownResponse\Events\MarkdownCacheHitEvent;
@@ -23,7 +24,7 @@ class ProvideMarkdownResponse
     {
         $detectionMethod = $this->shouldConvertToMarkdown($request);
 
-        if ($detectionMethod === false) {
+        if (! $detectionMethod) {
             return $next($request);
         }
 
@@ -42,14 +43,14 @@ class ProvideMarkdownResponse
         return $this->convertAndCacheResponse($request, $response, $cacheKey);
     }
 
-    protected function shouldConvertToMarkdown(Request $request): string|false
+    protected function shouldConvertToMarkdown(Request $request): ?DetectionMethod
     {
         if (! config('markdown-response.enabled', true)) {
-            return false;
+            return null;
         }
 
         if ($request->attributes->get('markdown-response.doNotProvide')) {
-            return false;
+            return null;
         }
 
         $attribute = AttributeReader::getFirstAttribute($request, [
@@ -58,11 +59,11 @@ class ProvideMarkdownResponse
         ]);
 
         if ($attribute instanceof DoNotProvideMarkdown) {
-            return false;
+            return null;
         }
 
         if ($attribute instanceof ProvideMarkdown) {
-            return 'attribute';
+            return DetectionMethod::Attribute;
         }
 
         return Config::getAction('detection.detector', DetectsMarkdownRequest::class)($request);
@@ -88,9 +89,9 @@ class ProvideMarkdownResponse
         return $cached;
     }
 
-    protected function getHtmlResponse(Request $request, Closure $next, string $detectionMethod): mixed
+    protected function getHtmlResponse(Request $request, Closure $next, DetectionMethod $detectionMethod): mixed
     {
-        if ($detectionMethod !== 'accept') {
+        if ($detectionMethod !== DetectionMethod::Accept) {
             return $next($request);
         }
 

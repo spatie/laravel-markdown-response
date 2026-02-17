@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Spatie\MarkdownResponse\Actions\DetectsMarkdownRequest;
+use Spatie\MarkdownResponse\Enums\DetectionMethod;
 
 beforeEach(function () {
     config()->set('markdown-response.detection.detect_via_accept_header', true);
@@ -16,7 +17,7 @@ it('detects md suffix via request attribute', function () {
     $request->attributes->set('markdown-response.suffix', true);
     $detector = new DetectsMarkdownRequest;
 
-    expect($detector($request))->toBe('suffix');
+    expect($detector($request))->toBe(DetectionMethod::Suffix);
 });
 
 it('detects accept header', function () {
@@ -24,7 +25,7 @@ it('detects accept header', function () {
     $request->headers->set('Accept', 'text/markdown');
     $detector = new DetectsMarkdownRequest;
 
-    expect($detector($request))->toBe('accept');
+    expect($detector($request))->toBe(DetectionMethod::Accept);
 });
 
 it('detects ai user agent', function () {
@@ -32,15 +33,15 @@ it('detects ai user agent', function () {
     $request->headers->set('User-Agent', 'Mozilla/5.0 (compatible; GPTBot/1.0)');
     $detector = new DetectsMarkdownRequest;
 
-    expect($detector($request))->toBe('user-agent');
+    expect($detector($request))->toBe(DetectionMethod::UserAgent);
 });
 
-it('returns false for normal requests', function () {
+it('returns null for normal requests', function () {
     $request = Request::create('/about');
     $request->headers->set('User-Agent', 'Mozilla/5.0');
     $detector = new DetectsMarkdownRequest;
 
-    expect($detector($request))->toBeFalse();
+    expect($detector($request))->toBeNull();
 });
 
 it('prioritizes suffix over accept header', function () {
@@ -49,7 +50,7 @@ it('prioritizes suffix over accept header', function () {
     $request->headers->set('Accept', 'text/markdown');
     $detector = new DetectsMarkdownRequest;
 
-    expect($detector($request))->toBe('suffix');
+    expect($detector($request))->toBe(DetectionMethod::Suffix);
 });
 
 it('can disable accept header detection', function () {
@@ -59,7 +60,7 @@ it('can disable accept header detection', function () {
     $request->headers->set('Accept', 'text/markdown');
     $detector = new DetectsMarkdownRequest;
 
-    expect($detector($request))->toBeFalse();
+    expect($detector($request))->toBeNull();
 });
 
 it('detects various ai user agents', function (string $userAgent) {
@@ -67,7 +68,7 @@ it('detects various ai user agents', function (string $userAgent) {
     $request->headers->set('User-Agent', $userAgent);
     $detector = new DetectsMarkdownRequest;
 
-    expect($detector($request))->toBe('user-agent');
+    expect($detector($request))->toBe(DetectionMethod::UserAgent);
 })->with([
     'GPTBot/1.0',
     'ClaudeBot/1.0',

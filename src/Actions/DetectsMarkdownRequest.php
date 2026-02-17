@@ -3,24 +3,25 @@
 namespace Spatie\MarkdownResponse\Actions;
 
 use Illuminate\Http\Request;
+use Spatie\MarkdownResponse\Enums\DetectionMethod;
 
 class DetectsMarkdownRequest
 {
-    public function __invoke(Request $request): false|string
+    public function __invoke(Request $request): ?DetectionMethod
     {
         if ($this->hasMdSuffix($request)) {
-            return 'suffix';
+            return DetectionMethod::Suffix;
         }
 
         if ($this->hasAcceptHeader($request)) {
-            return 'accept';
+            return DetectionMethod::Accept;
         }
 
         if ($this->hasAiUserAgent($request)) {
-            return 'user-agent';
+            return DetectionMethod::UserAgent;
         }
 
-        return false;
+        return null;
     }
 
     protected function hasMdSuffix(Request $request): bool
