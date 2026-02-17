@@ -21,10 +21,6 @@ class GeneratesCacheKey
     {
         $query = $request->query();
 
-        if (! is_array($query)) {
-            return '';
-        }
-
         $ignored = config('markdown-response.cache.ignored_query_parameters', []);
 
         $filtered = array_diff_key($query, array_flip($ignored));
