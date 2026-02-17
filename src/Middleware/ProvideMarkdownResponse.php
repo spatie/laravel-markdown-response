@@ -142,6 +142,8 @@ class ProvideMarkdownResponse
     {
         return new Response($markdown, 200, [
             'Content-Type' => 'text/markdown; charset=UTF-8',
+            'Vary' => 'Accept',
+            'X-Robots-Tag' => 'noindex',
         ]);
     }
 }
