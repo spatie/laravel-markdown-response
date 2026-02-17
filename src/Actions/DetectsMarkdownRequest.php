@@ -25,11 +25,7 @@ class DetectsMarkdownRequest
 
     protected function hasMdSuffix(Request $request): bool
     {
-        if (! config('markdown-response.detection.detect_via_md_suffix', true)) {
-            return false;
-        }
-
-        return str_ends_with($request->getPathInfo(), '.md');
+        return (bool) $request->attributes->get('markdown-response.suffix');
     }
 
     protected function hasAcceptHeader(Request $request): bool

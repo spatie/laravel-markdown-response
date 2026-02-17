@@ -6,6 +6,7 @@ use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 use Spatie\MarkdownResponse\Commands\ClearMarkdownCacheCommand;
 use Spatie\MarkdownResponse\Drivers\CloudflareDriver;
+use Illuminate\Contracts\Http\Kernel;
 use Spatie\MarkdownResponse\Drivers\LeagueDriver;
 use Spatie\MarkdownResponse\Drivers\MarkdownDriver;
 use Spatie\MarkdownResponse\Drivers\MarkdownNewDriver;
@@ -25,6 +26,10 @@ class MarkdownResponseServiceProvider extends PackageServiceProvider
     {
         $this->registerDrivers();
         $this->registerConverter();
+
+        /** @var \Illuminate\Foundation\Http\Kernel $kernel */
+        $kernel = $this->app->make(Kernel::class);
+        $kernel->pushMiddleware(Middleware\RewriteMarkdownUrls::class);
     }
 
     protected function registerDrivers(): void

@@ -7,15 +7,22 @@ use Spatie\MarkdownResponse\Events\ConvertedToMarkdownEvent;
 use Spatie\MarkdownResponse\Events\ConvertingToMarkdownEvent;
 use Spatie\MarkdownResponse\Middleware\DoNotProvideMarkdownResponse;
 use Spatie\MarkdownResponse\Middleware\ProvideMarkdownResponse;
+use Spatie\MarkdownResponse\Middleware\RewriteMarkdownUrls;
 
 function handleMiddleware(Request $request, ?string $html = null, int $status = 200, string $contentType = 'text/html'): Response
 {
-    $middleware = new ProvideMarkdownResponse;
-
     $html ??= '<html><body><h1>Hello</h1><p>World</p></body></html>';
 
-    return $middleware->handle($request, function () use ($html, $status, $contentType) {
+    $innerHandler = function () use ($html, $status, $contentType) {
         return new Response($html, $status, ['Content-Type' => $contentType]);
+    };
+
+    $provideMiddleware = new ProvideMarkdownResponse;
+
+    $rewriteMiddleware = new RewriteMarkdownUrls;
+
+    return $rewriteMiddleware->handle($request, function ($request) use ($provideMiddleware, $innerHandler) {
+        return $provideMiddleware->handle($request, $innerHandler);
     });
 }
 

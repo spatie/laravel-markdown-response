@@ -24,10 +24,6 @@ class ProvideMarkdownResponse
             return $next($request);
         }
 
-        if ($detectionMethod === 'suffix') {
-            $this->rewriteUrlWithoutMdSuffix($request);
-        }
-
         $cacheKey = $this->generateCacheKey($request);
 
         if ($markdown = $this->getCachedMarkdown($request, $cacheKey)) {
@@ -123,25 +119,6 @@ class ProvideMarkdownResponse
         }
 
         return $this->markdownResponse($markdown);
-    }
-
-    protected function rewriteUrlWithoutMdSuffix(Request $request): void
-    {
-        $path = preg_replace('/\.md$/', '', $request->getPathInfo());
-        $queryString = $request->getQueryString();
-        $uri = $path.($queryString ? "?{$queryString}" : '');
-
-        $request->server->set('REQUEST_URI', $uri);
-
-        $request->initialize(
-            $request->query->all(),
-            $request->request->all(),
-            $request->attributes->all(),
-            $request->cookies->all(),
-            $request->files->all(),
-            $request->server->all(),
-            $request->getContent(),
-        );
     }
 
     protected function markdownResponse(string $markdown): Response

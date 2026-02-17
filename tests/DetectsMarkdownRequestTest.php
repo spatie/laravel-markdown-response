@@ -11,8 +11,9 @@ beforeEach(function () {
     ]);
 });
 
-it('detects md suffix', function () {
-    $request = Request::create('/about.md');
+it('detects md suffix via request attribute', function () {
+    $request = Request::create('/about');
+    $request->attributes->set('markdown-response.suffix', true);
     $detector = new DetectsMarkdownRequest;
 
     expect($detector($request))->toBe('suffix');
@@ -43,20 +44,12 @@ it('returns false for normal requests', function () {
 });
 
 it('prioritizes suffix over accept header', function () {
-    $request = Request::create('/about.md');
+    $request = Request::create('/about');
+    $request->attributes->set('markdown-response.suffix', true);
     $request->headers->set('Accept', 'text/markdown');
     $detector = new DetectsMarkdownRequest;
 
     expect($detector($request))->toBe('suffix');
-});
-
-it('can disable md suffix detection', function () {
-    config()->set('markdown-response.detection.detect_via_md_suffix', false);
-
-    $request = Request::create('/about.md');
-    $detector = new DetectsMarkdownRequest;
-
-    expect($detector($request))->toBeFalse();
 });
 
 it('can disable accept header detection', function () {
