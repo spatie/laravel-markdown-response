@@ -1,6 +1,7 @@
 <?php
 
 use Spatie\MarkdownResponse\Preprocessors\RemoveFooterPreprocessor;
+use Spatie\MarkdownResponse\Preprocessors\RemoveHeaderPreprocessor;
 use Spatie\MarkdownResponse\Preprocessors\RemoveNavigationPreprocessor;
 use Spatie\MarkdownResponse\Preprocessors\RemoveScriptsAndStylesPreprocessor;
 
@@ -52,6 +53,16 @@ it('removes nav elements', function () {
 
     expect($result)->toContain('<main>Content</main>')
         ->not->toContain('<nav>');
+});
+
+it('removes header elements', function () {
+    $preprocessor = new RemoveHeaderPreprocessor;
+
+    $html = '<header><a href="/">Home</a></header><main>Content</main>';
+    $result = $preprocessor($html);
+
+    expect($result)->toContain('<main>Content</main>')
+        ->not->toContain('<header>');
 });
 
 it('removes footer elements', function () {

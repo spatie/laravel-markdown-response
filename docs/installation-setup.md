@@ -112,6 +112,15 @@ return [
         RemoveScriptsAndStylesPreprocessor::class,
     ],
 
+    /*
+     * Postprocessors are run on the markdown after conversion.
+     * Each class must implement the Postprocessor interface.
+     */
+    'postprocessors' => [
+        RemoveHtmlTagsPostprocessor::class,
+        CollapseBlankLinesPostprocessor::class,
+    ],
+
     'cache' => [
 
         /*

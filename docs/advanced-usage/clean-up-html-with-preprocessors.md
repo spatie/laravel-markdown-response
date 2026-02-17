@@ -5,10 +5,11 @@ weight: 1
 
 Before HTML is converted to markdown, it runs through preprocessors that strip elements which don't belong in a markdown document, like scripts, navigation menus, or advertising.
 
-The package ships with three preprocessors:
+The package ships with four preprocessors:
 
 - `RemoveScriptsAndStylesPreprocessor`: strips `<script>` tags, `<style>` tags, and stylesheet `<link>` tags. Enabled by default.
 - `RemoveNavigationPreprocessor`: strips `<nav>` elements. Not enabled by default.
+- `RemoveHeaderPreprocessor`: strips `<header>` elements. Not enabled by default.
 - `RemoveFooterPreprocessor`: strips `<footer>` elements. Not enabled by default.
 
 You can configure which preprocessors run in the config file:

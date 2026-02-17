@@ -30,6 +30,15 @@ it('preserves single blank lines', function () {
     expect($result)->toBe("Hello\n\nWorld\n");
 });
 
+it('collapses lines with only whitespace', function () {
+    $postprocessor = new CollapseBlankLinesPostprocessor;
+
+    $markdown = "Hello\n   \n   \n   \nWorld\n";
+    $result = $postprocessor($markdown);
+
+    expect($result)->toBe("Hello\n\nWorld\n");
+});
+
 it('strips remaining html tags from markdown', function () {
     $postprocessor = new RemoveHtmlTagsPostprocessor;
 
