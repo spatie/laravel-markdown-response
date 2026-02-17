@@ -7,9 +7,9 @@ Before HTML is converted to markdown, it runs through preprocessors that strip e
 
 The package ships with three preprocessors:
 
-- `RemoveScriptsAndStyles`: strips `<script>` tags, `<style>` tags, and stylesheet `<link>` tags. Enabled by default.
-- `RemoveNavigation`: strips `<nav>` elements. Not enabled by default.
-- `RemoveFooter`: strips `<footer>` elements. Not enabled by default.
+- `RemoveScriptsAndStylesPreprocessor`: strips `<script>` tags, `<style>` tags, and stylesheet `<link>` tags. Enabled by default.
+- `RemoveNavigationPreprocessor`: strips `<nav>` elements. Not enabled by default.
+- `RemoveFooterPreprocessor`: strips `<footer>` elements. Not enabled by default.
 
 You can configure which preprocessors run in the config file:
 
@@ -17,8 +17,8 @@ You can configure which preprocessors run in the config file:
 // config/markdown-response.php
 
 'preprocessors' => [
-    Spatie\MarkdownResponse\Preprocessors\RemoveScriptsAndStyles::class,
-    Spatie\MarkdownResponse\Preprocessors\RemoveNavigation::class,
+    Spatie\MarkdownResponse\Preprocessors\RemoveScriptsAndStylesPreprocessor::class,
+    Spatie\MarkdownResponse\Preprocessors\RemoveNavigationPreprocessor::class,
 ],
 ```
 
@@ -48,7 +48,7 @@ Then register it in the config file:
 // config/markdown-response.php
 
 'preprocessors' => [
-    Spatie\MarkdownResponse\Preprocessors\RemoveScriptsAndStyles::class,
+    Spatie\MarkdownResponse\Preprocessors\RemoveScriptsAndStylesPreprocessor::class,
     App\Preprocessors\RemoveAds::class,
 ],
 ```

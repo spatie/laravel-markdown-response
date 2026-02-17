@@ -36,9 +36,65 @@ use Spatie\MarkdownResponse\Middleware\ProvideMarkdownResponse;
 })
 ```
 
+## Use attributes on controllers
+
+You can use PHP attributes to control markdown conversion at the controller or method level.
+
+The `#[ProvideMarkdown]` attribute will always convert the response to markdown, regardless of the request's Accept header, user agent, or URL suffix:
+
+```php
+use Spatie\MarkdownResponse\Attributes\ProvideMarkdown;
+
+class DocumentationController
+{
+    #[ProvideMarkdown]
+    public function show(string $slug)
+    {
+        return view('docs.show', ['slug' => $slug]);
+    }
+}
+```
+
+The `#[DoNotProvideMarkdown]` attribute will never convert the response, even if the request would normally trigger conversion:
+
+```php
+use Spatie\MarkdownResponse\Attributes\DoNotProvideMarkdown;
+
+class DashboardController
+{
+    #[DoNotProvideMarkdown]
+    public function index()
+    {
+        return view('dashboard');
+    }
+}
+```
+
+Both attributes work on the class level too. Method-level attributes take precedence over class-level attributes:
+
+```php
+use Spatie\MarkdownResponse\Attributes\ProvideMarkdown;
+use Spatie\MarkdownResponse\Attributes\DoNotProvideMarkdown;
+
+#[ProvideMarkdown]
+class PageController
+{
+    public function about()
+    {
+        // Will be converted (inherits class attribute)
+    }
+
+    #[DoNotProvideMarkdown]
+    public function dashboard()
+    {
+        // Will NOT be converted (method overrides class)
+    }
+}
+```
+
 ## Exclude specific routes
 
-If you apply the middleware globally but want to exclude certain routes, use the `DoNotProvideMarkdownResponse` middleware:
+If you apply the middleware globally but want to exclude certain routes without using attributes, you can use the `DoNotProvideMarkdownResponse` middleware:
 
 ```php
 use Spatie\MarkdownResponse\Middleware\DoNotProvideMarkdownResponse;

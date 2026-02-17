@@ -2,7 +2,7 @@
 
 namespace Spatie\MarkdownResponse\Preprocessors;
 
-class RemoveNavigation implements Preprocessor
+class RemoveNavigationPreprocessor implements Preprocessor
 {
     public function __invoke(string $html): string
     {

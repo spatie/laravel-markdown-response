@@ -67,6 +67,33 @@ MARKDOWN_RESPONSE_DRIVER=markdown-new
 
 This driver resolves the URL from the current request, so it works automatically with the middleware. It has a free tier of 500 requests/day and throws a `CouldNotConvertToMarkdown` exception when rate limited.
 
+## Create a custom driver
+
+You can create your own driver by implementing the `MarkdownDriver` interface:
+
+```php
+namespace App\Drivers;
+
+use Spatie\MarkdownResponse\Drivers\MarkdownDriver;
+
+class PandocDriver implements MarkdownDriver
+{
+    public function convert(string $html): string
+    {
+        // Your conversion logic here
+    }
+}
+```
+
+Then bind it to the `MarkdownDriver` interface in a service provider:
+
+```php
+use App\Drivers\PandocDriver;
+use Spatie\MarkdownResponse\Drivers\MarkdownDriver;
+
+$this->app->singleton(MarkdownDriver::class, PandocDriver::class);
+```
+
 ## Switch drivers at runtime
 
 You can switch drivers on a per-conversion basis using the `using()` method:

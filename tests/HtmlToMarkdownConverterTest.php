@@ -14,7 +14,7 @@ it('converts html to markdown via the converter', function () {
 
 it('runs preprocessors before converting', function () {
     config()->set('markdown-response.preprocessors', [
-        Spatie\MarkdownResponse\Preprocessors\RemoveScriptsAndStyles::class,
+        Spatie\MarkdownResponse\Preprocessors\RemoveScriptsAndStylesPreprocessor::class,
     ]);
 
     $converter = app(HtmlToMarkdownConverter::class);
@@ -33,8 +33,7 @@ it('works via the facade', function () {
 
 it('can switch drivers via using()', function () {
     $converter = app(HtmlToMarkdownConverter::class);
-    $newConverter = $converter->using('league');
 
-    expect($newConverter)->not->toBe($converter);
-    expect($newConverter->convert('<h1>Test</h1>'))->toContain('Test');
+    expect($converter->using('league'))->toBe($converter);
+    expect($converter->convert('<h1>Test</h1>'))->toContain('Test');
 });

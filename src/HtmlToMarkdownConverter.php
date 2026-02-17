@@ -20,10 +20,9 @@ class HtmlToMarkdownConverter
 
     public function using(string $driverName): static
     {
-        $clone = clone $this;
-        $clone->driver = app("markdown-response.driver.{$driverName}");
+        $this->driver = app("markdown-response.driver.{$driverName}");
 
-        return $clone;
+        return $this;
     }
 
     protected function runPreprocessors(string $html): string

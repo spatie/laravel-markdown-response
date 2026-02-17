@@ -8,10 +8,13 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Cache;
 use Spatie\MarkdownResponse\Actions\DetectsMarkdownRequest;
 use Spatie\MarkdownResponse\Actions\GeneratesCacheKey;
+use Spatie\MarkdownResponse\Attributes\DoNotProvideMarkdown;
+use Spatie\MarkdownResponse\Attributes\ProvideMarkdown;
 use Spatie\MarkdownResponse\Events\ConvertedToMarkdownEvent;
 use Spatie\MarkdownResponse\Events\ConvertingToMarkdownEvent;
 use Spatie\MarkdownResponse\Events\MarkdownCacheHitEvent;
 use Spatie\MarkdownResponse\HtmlToMarkdownConverter;
+use Spatie\MarkdownResponse\Support\AttributeReader;
 use Spatie\MarkdownResponse\Support\Config;
 
 class ProvideMarkdownResponse
@@ -32,7 +35,7 @@ class ProvideMarkdownResponse
 
         $response = $this->getHtmlResponse($request, $next, $detectionMethod);
 
-        if (! $this->isConvertibleResponse($response)) {
+        if (! $this->isHtmlResponse($response)) {
             return $response;
         }
 
@@ -47,6 +50,19 @@ class ProvideMarkdownResponse
 
         if ($request->attributes->get('markdown-response.doNotProvide')) {
             return false;
+        }
+
+        $attribute = AttributeReader::getFirstAttribute($request, [
+            ProvideMarkdown::class,
+            DoNotProvideMarkdown::class,
+        ]);
+
+        if ($attribute instanceof DoNotProvideMarkdown) {
+            return false;
+        }
+
+        if ($attribute instanceof ProvideMarkdown) {
+            return 'attribute';
         }
 
         return Config::getAction('detection.detector', DetectsMarkdownRequest::class)($request);
@@ -88,7 +104,7 @@ class ProvideMarkdownResponse
         return $response;
     }
 
-    protected function isConvertibleResponse(mixed $response): bool
+    protected function isHtmlResponse(mixed $response): bool
     {
         if (! $response instanceof Response) {
             return false;

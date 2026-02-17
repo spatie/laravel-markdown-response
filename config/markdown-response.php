@@ -2,7 +2,7 @@
 
 use Spatie\MarkdownResponse\Actions\DetectsMarkdownRequest;
 use Spatie\MarkdownResponse\Actions\GeneratesCacheKey;
-use Spatie\MarkdownResponse\Preprocessors\RemoveScriptsAndStyles;
+use Spatie\MarkdownResponse\Preprocessors\RemoveScriptsAndStylesPreprocessor;
 
 return [
 
@@ -61,7 +61,7 @@ return [
      * markdown. Each class must implement the Preprocessor interface.
      */
     'preprocessors' => [
-        RemoveScriptsAndStyles::class,
+        RemoveScriptsAndStylesPreprocessor::class,
     ],
 
     'cache' => [

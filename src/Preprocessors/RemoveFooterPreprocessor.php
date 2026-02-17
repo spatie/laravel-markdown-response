@@ -2,7 +2,7 @@
 
 namespace Spatie\MarkdownResponse\Preprocessors;
 
-class RemoveFooter implements Preprocessor
+class RemoveFooterPreprocessor implements Preprocessor
 {
     public function __invoke(string $html): string
     {

@@ -109,7 +109,7 @@ return [
      * markdown. Each class must implement the Preprocessor interface.
      */
     'preprocessors' => [
-        RemoveScriptsAndStyles::class,
+        RemoveScriptsAndStylesPreprocessor::class,
     ],
 
     'cache' => [

@@ -2,7 +2,7 @@
 
 namespace Spatie\MarkdownResponse\Preprocessors;
 
-class RemoveScriptsAndStyles implements Preprocessor
+class RemoveScriptsAndStylesPreprocessor implements Preprocessor
 {
     public function __invoke(string $html): string
     {
