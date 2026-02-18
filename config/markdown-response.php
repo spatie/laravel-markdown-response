@@ -15,7 +15,7 @@ return [
 
     /*
      * The driver used to convert HTML to markdown.
-     * Supported: "league", "cloudflare", "markdown-new"
+     * Supported: "league", "cloudflare"
      */
     'driver' => env('MARKDOWN_RESPONSE_DRIVER', 'league'),
 
@@ -138,14 +138,5 @@ return [
             'api_token' => env('CLOUDFLARE_API_TOKEN'),
         ],
 
-        /*
-         * The markdown.new driver sends the page URL to the markdown.new
-         * service. It supports JS rendering via "browser" method.
-         * Free tier: 500 requests/day, no auth required.
-         */
-        'markdown-new' => [
-            'method' => env('MARKDOWN_NEW_METHOD', 'auto'),
-            'retain_images' => false,
-        ],
     ],
 ];

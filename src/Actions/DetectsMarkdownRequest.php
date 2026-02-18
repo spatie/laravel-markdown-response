@@ -44,8 +44,10 @@ class DetectsMarkdownRequest
 
         $patterns = config('markdown-response.detection.detect_via_user_agents', []);
 
+        $userAgent = strtolower($userAgent);
+
         foreach ($patterns as $pattern) {
-            if (stripos($userAgent, $pattern) !== false) {
+            if (str_contains($userAgent, strtolower($pattern))) {
                 return true;
             }
         }

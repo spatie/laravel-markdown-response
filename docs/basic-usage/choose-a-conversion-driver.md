@@ -46,27 +46,6 @@ To get your credentials:
 2. Your Account ID is in the dashboard URL
 3. Create an API token under Manage account > Account API tokens
 
-## Use the markdown.new driver
-
-The [markdown.new](https://markdown.new) driver sends the current page URL to an external service that fetches and converts the page. It supports JavaScript rendering via the `browser` method, which is useful for SPAs.
-
-```env
-MARKDOWN_RESPONSE_DRIVER=markdown-new
-```
-
-```php
-// config/markdown-response.php
-
-'driver_options' => [
-    'markdown-new' => [
-        'method' => 'auto', // 'auto', 'fetch', or 'browser'
-        'retain_images' => false,
-    ],
-],
-```
-
-This driver resolves the URL from the current request, so it works automatically with the middleware. It has a free tier of 500 requests/day and throws a `CouldNotConvertToMarkdown` exception when rate limited.
-
 ## Create a custom driver
 
 You can create your own driver by implementing the `MarkdownDriver` interface:

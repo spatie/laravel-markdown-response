@@ -47,7 +47,7 @@ Optionally, you can publish the config file:
 php artisan vendor:publish --tag="markdown-response-config"
 ```
 
-The default League driver converts HTML to markdown locally and works without any external services. The Cloudflare driver offers better conversion quality, and the markdown.new driver can render JavaScript for SPAs. You can [choose a different driver](/docs/laravel-markdown-response/v1/advanced-usage/choose-a-conversion-driver) at any time.
+The default League driver converts HTML to markdown locally and works without any external services. The Cloudflare driver offers better conversion quality. You can [choose a different driver](/docs/laravel-markdown-response/v1/advanced-usage/choose-a-conversion-driver) at any time.
 
 This is the content of the published config file:
 
@@ -61,7 +61,7 @@ return [
 
     /*
      * The driver used to convert HTML to markdown.
-     * Supported: "league", "cloudflare", "markdown-new"
+     * Supported: "league", "cloudflare"
      */
     'driver' => env('MARKDOWN_RESPONSE_DRIVER', 'league'),
 
@@ -184,15 +184,6 @@ return [
             'api_token' => env('CLOUDFLARE_API_TOKEN'),
         ],
 
-        /*
-         * The markdown.new driver sends the page URL to the markdown.new
-         * service. It supports JS rendering via "browser" method.
-         * Free tier: 500 requests/day, no auth required.
-         */
-        'markdown-new' => [
-            'method' => env('MARKDOWN_NEW_METHOD', 'auto'),
-            'retain_images' => false,
-        ],
     ],
 ];
 ```

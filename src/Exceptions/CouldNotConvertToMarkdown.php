@@ -6,11 +6,6 @@ use Exception;
 
 class CouldNotConvertToMarkdown extends Exception
 {
-    public static function rateLimited(string $driver): self
-    {
-        return new self("The `{$driver}` driver is rate limited. Please try again later.");
-    }
-
     public static function apiError(string $driver, string $body): self
     {
         return new self("The `{$driver}` driver returned an error: {$body}");

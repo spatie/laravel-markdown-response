@@ -20,7 +20,7 @@ Now when an AI agent visits `/about` (or a user visits `/about.md`), it receives
 
 The package detects markdown requests through three mechanisms: `Accept: text/markdown` headers, `.md` URL suffixes, and known AI bot user agents like GPTBot and ClaudeBot.
 
-The HTML-to-markdown conversion is driver-based. The default driver uses [league/html-to-markdown](https://github.com/thephpleague/html-to-markdown) and works locally without any external services. You can also use the Cloudflare Workers AI API or [markdown.new](https://markdown.new) for better quality or JavaScript rendering support.
+The HTML-to-markdown conversion is driver-based. The default driver uses [league/html-to-markdown](https://github.com/thephpleague/html-to-markdown) and works locally without any external services. You can also use the Cloudflare Workers AI API for better conversion quality.
 
 Converted responses are cached by default, so repeated requests skip the conversion entirely.
 

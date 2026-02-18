@@ -9,7 +9,6 @@ use Spatie\MarkdownResponse\Commands\ClearMarkdownCacheCommand;
 use Spatie\MarkdownResponse\Drivers\CloudflareDriver;
 use Spatie\MarkdownResponse\Drivers\LeagueDriver;
 use Spatie\MarkdownResponse\Drivers\MarkdownDriver;
-use Spatie\MarkdownResponse\Drivers\MarkdownNewDriver;
 use Spatie\MarkdownResponse\Exceptions\InvalidDriver;
 
 class MarkdownResponseServiceProvider extends PackageServiceProvider
@@ -47,20 +46,12 @@ class MarkdownResponseServiceProvider extends PackageServiceProvider
             );
         });
 
-        $this->app->singleton('markdown-response.driver.markdown-new', function () {
-            return new MarkdownNewDriver(
-                method: config('markdown-response.driver_options.markdown-new.method', 'auto'),
-                retainImages: config('markdown-response.driver_options.markdown-new.retain_images', false),
-            );
-        });
-
         $this->app->singleton(MarkdownDriver::class, function () {
             $driver = config('markdown-response.driver', 'league');
 
             return match ($driver) {
                 'league' => $this->app->make('markdown-response.driver.league'),
                 'cloudflare' => $this->app->make('markdown-response.driver.cloudflare'),
-                'markdown-new' => $this->app->make('markdown-response.driver.markdown-new'),
                 default => throw InvalidDriver::unknown($driver),
             };
         });
