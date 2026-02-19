@@ -140,10 +140,41 @@ class ProvideMarkdownResponse
 
     protected function markdownResponse(string $markdown): Response
     {
-        return new Response($markdown, 200, [
+        $headers = [
             'Content-Type' => 'text/markdown; charset=UTF-8',
             'Vary' => 'Accept',
             'X-Robots-Tag' => 'noindex',
-        ]);
+            'X-Markdown-Tokens' => (string) $this->estimateTokens($markdown),
+        ];
+
+        $contentSignal = $this->buildContentSignalHeader();
+
+        if ($contentSignal !== '') {
+            $headers['Content-Signal'] = $contentSignal;
+        }
+
+        return new Response($markdown, 200, $headers);
+    }
+
+    protected function estimateTokens(string $markdown): int
+    {
+        if ($markdown === '') {
+            return 0;
+        }
+
+        return (int) ceil(mb_strlen($markdown) / 4);
+    }
+
+    protected function buildContentSignalHeader(): string
+    {
+        $signals = config('markdown-response.content_signals', []);
+
+        if (empty($signals)) {
+            return '';
+        }
+
+        return collect($signals)
+            ->map(fn (string $value, string $key) => "{$key}={$value}")
+            ->implode(', ');
     }
 }

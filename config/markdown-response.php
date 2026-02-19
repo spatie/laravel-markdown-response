@@ -115,6 +115,19 @@ return [
         ],
     ],
 
+    /*
+     * These signals are sent as a `Content-Signal` response header to
+     * inform AI agents what they are allowed to do with your content.
+     * Set to an empty array to disable the header entirely.
+     *
+     * See: https://contentstandards.org
+     */
+    'content_signals' => [
+        'ai-train' => 'disallow',
+        'ai-input' => 'allow',
+        'search' => 'allow',
+    ],
+
     'driver_options' => [
 
         /*

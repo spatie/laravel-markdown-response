@@ -117,6 +117,37 @@ it('fires events during conversion', function () {
     Event::assertDispatched(ConvertedToMarkdownEvent::class);
 });
 
+it('includes an estimated token count header', function () {
+    $request = Request::create('/about');
+    $request->headers->set('Accept', 'text/markdown');
+
+    $response = handleMiddleware($request);
+
+    $tokens = (int) $response->headers->get('X-Markdown-Tokens');
+    expect($tokens)->toBeGreaterThan(0);
+});
+
+it('includes a content signal header', function () {
+    $request = Request::create('/about');
+    $request->headers->set('Accept', 'text/markdown');
+
+    $response = handleMiddleware($request);
+
+    expect($response->headers->get('Content-Signal'))
+        ->toBe('ai-train=disallow, ai-input=allow, search=allow');
+});
+
+it('does not include a content signal header when signals are empty', function () {
+    config()->set('markdown-response.content_signals', []);
+
+    $request = Request::create('/about');
+    $request->headers->set('Accept', 'text/markdown');
+
+    $response = handleMiddleware($request);
+
+    expect($response->headers->has('Content-Signal'))->toBeFalse();
+});
+
 it('does not fire events for normal requests', function () {
     Event::fake();
 
