@@ -2,6 +2,13 @@
 
 All notable changes to `laravel-markdown-response` will be documented in this file.
 
+## 0.1.0 - 2026-02-19
+
+### What's new
+
+- Added `X-Markdown-Tokens` response header with estimated token count
+- Added configurable `Content-Signal` response header to communicate content usage permissions to AI agents
+
 ## 0.0.2 - 2026-02-17
 
 **Full Changelog**: https://github.com/spatie/laravel-markdown-response/compare/0.0.1...0.0.2
