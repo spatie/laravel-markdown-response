@@ -21,7 +21,8 @@
         "php": "^8.4",
         "illuminate/contracts": "^12.0",
         "league/html-to-markdown": "^5.1",
-        "spatie/laravel-package-tools": "^1.16"
+        "spatie/laravel-package-tools": "^1.16",
+        "spatie/php-attribute-reader": "^1.0"
     },
     "require-dev": {
         "laravel/pint": "^1.14",
