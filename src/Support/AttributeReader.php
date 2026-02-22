@@ -3,9 +3,7 @@
 namespace Spatie\MarkdownResponse\Support;
 
 use Illuminate\Http\Request;
-use ReflectionClass;
-use ReflectionException;
-use ReflectionMethod;
+use Spatie\Attributes\Attributes;
 
 class AttributeReader
 {
@@ -30,35 +28,20 @@ class AttributeReader
             return null;
         }
 
-        try {
-            $reflectionClass = new ReflectionClass($controller);
-            $reflectionMethod = $reflectionClass->getMethod($method);
-
-            // Method-level attributes take precedence
-            $attribute = self::findAttribute($reflectionMethod, $attributeClasses);
+        // Method-level attributes take precedence
+        foreach ($attributeClasses as $attributeClass) {
+            $attribute = Attributes::onMethod($controller, $method, $attributeClass);
 
             if ($attribute) {
                 return $attribute;
             }
-
-            return self::findAttribute($reflectionClass, $attributeClasses);
-        } catch (ReflectionException) {
-            return null;
         }
-    }
 
-    /**
-     * @param  array<class-string>  $attributeClasses
-     */
-    protected static function findAttribute(
-        ReflectionClass|ReflectionMethod $reflection,
-        array $attributeClasses,
-    ): ?object {
         foreach ($attributeClasses as $attributeClass) {
-            $attributes = $reflection->getAttributes($attributeClass);
+            $attribute = Attributes::get($controller, $attributeClass);
 
-            if (! empty($attributes)) {
-                return $attributes[0]->newInstance();
+            if ($attribute) {
+                return $attribute;
             }
         }
 
