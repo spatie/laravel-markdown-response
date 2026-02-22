@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-markdown-response` will be documented in this file.
 
+## 1.1.0 - 2026-02-22
+
+Use spatie/php-attribute-reader for attribute reading
+
 ## 1.0.0 - 2026-02-19
 
 - Added `X-Markdown-Tokens` response header with estimated token count
