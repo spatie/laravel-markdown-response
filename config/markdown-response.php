@@ -47,11 +47,9 @@ return [
          * is case-insensitive.
          */
         'detect_via_user_agents' => [
-            'GPTBot',
             'ClaudeBot',
             'Claude-Web',
             'Anthropic',
-            'ChatGPT-User',
             'PerplexityBot',
             'Bytespider',
             'Google-Extended',
