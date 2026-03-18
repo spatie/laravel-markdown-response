@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-markdown-response` will be documented in this file.
 
+## 1.2.0 - 2026-03-18
+
+- Add support for Laravel 13
+
 ## 1.1.0 - 2026-02-22
 
 Use spatie/php-attribute-reader for attribute reading
