@@ -1,5 +1,6 @@
 <?php
 
+use PHPUnit\Framework\ExpectationFailedException;
 use Spatie\MarkdownResponse\Facades\Markdown;
 
 it('can fake the converter', function () {
@@ -42,5 +43,5 @@ it('fails assertion when callback does not match', function () {
 
     expect(fn () => $fake->assertConverted(
         fn (string $html) => str_contains($html, 'Goodbye'),
-    ))->toThrow(PHPUnit\Framework\ExpectationFailedException::class);
+    ))->toThrow(ExpectationFailedException::class);
 });

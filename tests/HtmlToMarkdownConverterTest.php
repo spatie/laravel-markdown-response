@@ -2,6 +2,8 @@
 
 use Spatie\MarkdownResponse\Facades\Markdown;
 use Spatie\MarkdownResponse\HtmlToMarkdownConverter;
+use Spatie\MarkdownResponse\Postprocessors\RemoveHtmlTagsPostprocessor;
+use Spatie\MarkdownResponse\Preprocessors\RemoveScriptsAndStylesPreprocessor;
 
 it('converts html to markdown via the converter', function () {
     $converter = app(HtmlToMarkdownConverter::class);
@@ -14,7 +16,7 @@ it('converts html to markdown via the converter', function () {
 
 it('runs preprocessors before converting', function () {
     config()->set('markdown-response.preprocessors', [
-        Spatie\MarkdownResponse\Preprocessors\RemoveScriptsAndStylesPreprocessor::class,
+        RemoveScriptsAndStylesPreprocessor::class,
     ]);
 
     $converter = app(HtmlToMarkdownConverter::class);
@@ -33,7 +35,7 @@ it('works via the facade', function () {
 
 it('runs postprocessors after converting', function () {
     config()->set('markdown-response.postprocessors', [
-        Spatie\MarkdownResponse\Postprocessors\RemoveHtmlTagsPostprocessor::class,
+        RemoveHtmlTagsPostprocessor::class,
     ]);
 
     $converter = app(HtmlToMarkdownConverter::class);

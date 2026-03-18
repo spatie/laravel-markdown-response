@@ -2,12 +2,13 @@
 
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Testing\TestResponse;
 use Spatie\MarkdownResponse\Attributes\DoNotProvideMarkdown;
 use Spatie\MarkdownResponse\Attributes\ProvideMarkdown;
 use Spatie\MarkdownResponse\Middleware\ProvideMarkdownResponse;
 use Spatie\MarkdownResponse\Middleware\RewriteMarkdownUrls;
 
-function attributeTestResponse(string $uri, array $headers = []): \Illuminate\Testing\TestResponse
+function attributeTestResponse(string $uri, array $headers = []): TestResponse
 {
     return test()->get($uri, $headers);
 }
