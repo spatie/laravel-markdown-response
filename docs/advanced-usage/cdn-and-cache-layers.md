@@ -61,11 +61,25 @@ class CacheProfile extends CacheAllSuccessfulGetRequests
 
         if ($request->attributes->get('markdown-response.suffix')
             || str_contains($request->header('Accept', ''), 'text/markdown')
+            || $this->hasAiUserAgent($request)
         ) {
             return $suffix . '-markdown';
         }
 
         return $suffix;
+    }
+
+    protected function hasAiUserAgent(Request $request): bool
+    {
+        $userAgent = strtolower($request->userAgent() ?? '');
+
+        foreach (config('markdown-response.detection.detect_via_user_agents', []) as $pattern) {
+            if (str_contains($userAgent, strtolower($pattern))) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
 ```
