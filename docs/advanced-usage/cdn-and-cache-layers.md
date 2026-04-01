@@ -34,9 +34,20 @@ CDNs like Fastly, Varnish, and Nginx generally respect the `Vary: Accept` header
 
 ## spatie/laravel-responsecache
 
-If you use [spatie/laravel-responsecache](https://github.com/spatie/laravel-responsecache), cached HTML responses may be served before this package's middleware runs. The response cache stores the first response it sees (HTML) and replays it for all subsequent requests — including those that should receive markdown.
+If you use [spatie/laravel-responsecache](https://github.com/spatie/laravel-responsecache), place `ProvideMarkdownResponse` **before** `CacheResponse` in your middleware stack:
 
-To fix this, override `useCacheNameSuffix()` in your `CacheProfile` to create separate cache entries:
+```php
+$middleware->group('web', [
+    // ...
+    ProvideMarkdownResponse::class,
+    CacheResponse::class,
+    // ...
+]);
+```
+
+With this ordering, `CacheResponse` always caches the original HTML response. Markdown conversion happens after the cache layer on the response path, and `ProvideMarkdownResponse` manages its own markdown cache independently.
+
+If you also want separate cache entries for markdown requests, override `useCacheNameSuffix()` in your `CacheProfile`:
 
 ```php
 use Illuminate\Http\Request;
