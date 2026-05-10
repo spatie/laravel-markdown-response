@@ -21,7 +21,7 @@ class CloudflareDriver implements MarkdownDriver
 
         try {
             $response = Http::withToken($this->apiToken)
-                ->attach('file', $html, 'content.html')
+                ->attach('files', $html, 'content.html')
                 ->post("https://api.cloudflare.com/client/v4/accounts/{$this->accountId}/ai/tomarkdown");
         } catch (ConnectionException $exception) {
             throw CouldNotConvertToMarkdown::apiError('cloudflare', $exception->getMessage());
