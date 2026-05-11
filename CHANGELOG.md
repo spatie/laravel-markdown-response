@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-markdown-response` will be documented in this file.
 
+## 1.2.2 - 2026-05-11
+
+### What's Changed
+
+* Fix empty Cloudflare response and preserve hard-break trailing spaces by @freekmurze in https://github.com/spatie/laravel-markdown-response/pull/11
+
+**Full Changelog**: https://github.com/spatie/laravel-markdown-response/compare/1.2.1...1.2.2
+
 ## 1.2.1 - 2026-05-11
 
 ### What's Changed
