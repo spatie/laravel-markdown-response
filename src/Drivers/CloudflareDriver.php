@@ -31,6 +31,6 @@ class CloudflareDriver implements MarkdownDriver
             throw CouldNotConvertToMarkdown::apiError('cloudflare', $response->body());
         }
 
-        return $response->json('result.data', '');
+        return $response->json('result.0.data', '');
     }
 }

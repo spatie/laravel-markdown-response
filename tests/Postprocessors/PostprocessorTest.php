@@ -39,6 +39,15 @@ it('collapses lines with only whitespace', function () {
     expect($result)->toBe("Hello\n\nWorld\n");
 });
 
+it('preserves trailing two spaces used for markdown hard breaks', function () {
+    $postprocessor = new CollapseBlankLinesPostprocessor;
+
+    $markdown = "I have a break  \nin my line\n";
+    $result = $postprocessor($markdown);
+
+    expect($result)->toBe("I have a break  \nin my line\n");
+});
+
 it('strips remaining html tags from markdown', function () {
     $postprocessor = new RemoveHtmlTagsPostprocessor;
 
