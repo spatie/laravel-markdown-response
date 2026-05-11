@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-markdown-response` will be documented in this file.
 
+## 1.2.1 - 2026-05-11
+
+### What's Changed
+
+* Fix files parameter for Cloudflare API request by @sevenpixels in https://github.com/spatie/laravel-markdown-response/pull/10
+
+### New Contributors
+
+* @sevenpixels made their first contribution in https://github.com/spatie/laravel-markdown-response/pull/10
+
+**Full Changelog**: https://github.com/spatie/laravel-markdown-response/compare/1.1.1...1.2.1
+
 ## 1.1.1 - 2026-04-27
 
 ### What's Changed
