@@ -52,3 +52,15 @@ it('can switch drivers via using()', function () {
     expect($converter->using('league'))->toBe($converter);
     expect($converter->convert('<h1>Test</h1>'))->toContain('Test');
 });
+
+it('keeps email addresses when the remove html tags postprocessor runs', function () {
+    config()->set('markdown-response.postprocessors', [
+        RemoveHtmlTagsPostprocessor::class,
+    ]);
+
+    $converter = app(HtmlToMarkdownConverter::class);
+
+    $markdown = $converter->convert('<p>Email <a href="mailto:privacy@example.com">privacy@example.com</a> to exercise your rights.</p>');
+
+    expect($markdown)->toContain('privacy@example.com');
+});

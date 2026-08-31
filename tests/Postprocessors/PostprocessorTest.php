@@ -65,3 +65,21 @@ it('does not affect markdown syntax', function () {
 
     expect($result)->toBe("# Hello\n\n[link](https://example.com)\n\n`code`");
 });
+
+it('preserves email autolinks while stripping html tags', function () {
+    $postprocessor = new RemoveHtmlTagsPostprocessor;
+
+    $markdown = 'Questions? Email <privacy@example.com> for help.';
+    $result = $postprocessor($markdown);
+
+    expect($result)->toBe('Questions? Email privacy@example.com for help.');
+});
+
+it('preserves url autolinks while stripping html tags', function () {
+    $postprocessor = new RemoveHtmlTagsPostprocessor;
+
+    $markdown = 'Visit <https://example.com/docs> or <span>read on</span>.';
+    $result = $postprocessor($markdown);
+
+    expect($result)->toBe('Visit https://example.com/docs or read on.');
+});
