@@ -65,3 +65,40 @@ it('does not affect markdown syntax', function () {
 
     expect($result)->toBe("# Hello\n\n[link](https://example.com)\n\n`code`");
 });
+
+it('preserves autolink text while stripping html tags', function (string $autolink, string $text) {
+    $postprocessor = new RemoveHtmlTagsPostprocessor;
+
+    $markdown = "See <{$autolink}> or <span>read on</span>.";
+    $result = $postprocessor($markdown);
+
+    expect($result)->toBe("See {$text} or read on.");
+})->with([
+    'email' => ['privacy@example.com', 'privacy@example.com'],
+    'email punctuation' => ["o'connor+privacy@Sub.example-domain.com", "o'connor+privacy@Sub.example-domain.com"],
+    'http' => ['http://example.com', 'http://example.com'],
+    'https with query and fragment' => ['https://example.com/docs?a=1&b=2#intro', 'https://example.com/docs?a=1&b=2#intro'],
+    'uppercase scheme' => ['HTTPS://example.com/docs', 'HTTPS://example.com/docs'],
+    'ftp' => ['ftp://example.com/file', 'ftp://example.com/file'],
+    'mailto' => ['mailto:privacy@example.com', 'mailto:privacy@example.com'],
+    'telephone' => ['tel:+3212345678', 'tel:+3212345678'],
+]);
+
+it('does not expose html containing email addresses or urls', function (string $html) {
+    $postprocessor = new RemoveHtmlTagsPostprocessor;
+
+    expect($postprocessor("Before{$html}After"))->toBe('BeforeAfter');
+})->with([
+    'email comment' => '<!--privacy@example.com-->',
+    'url comment' => '<!--https://example.com-->',
+    'email attribute' => '<span title="privacy@example.com"></span>',
+    'url attribute' => '<a href="https://example.com"></a>',
+    'autolink in comment' => '<!-- <privacy@example.com> <https://example.com> -->',
+]);
+
+it('preserves multiple autolinks without consuming surrounding markdown', function () {
+    $postprocessor = new RemoveHtmlTagsPostprocessor;
+
+    expect($postprocessor('**Contact** <privacy@example.com>, <https://example.com> and <ftp://example.com/file>.'))
+        ->toBe('**Contact** privacy@example.com, https://example.com and ftp://example.com/file.');
+});

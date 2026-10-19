@@ -1,11 +1,25 @@
 name: PHPStan
 
 on:
+  pull_request:
+    paths:
+      - '**.php'
+      - 'phpstan.neon.dist'
+      - 'phpstan-baseline.neon'
+      - 'composer.json'
+      - 'composer.lock'
+      - '.github/workflows/phpstan.yml'
   push:
     paths:
       - '**.php'
       - 'phpstan.neon.dist'
+      - 'phpstan-baseline.neon'
+      - 'composer.json'
+      - 'composer.lock'
       - '.github/workflows/phpstan.yml'
+
+permissions:
+  contents: read
 
 jobs:
   phpstan:
@@ -23,6 +37,9 @@ jobs:
 
       - name: Install composer dependencies
         uses: ramsey/composer-install@v4
+
+      - name: Check PHP code style
+        run: vendor/bin/pint --test
 
       - name: Run PHPStan
         run: ./vendor/bin/phpstan --error-format=github

@@ -52,3 +52,39 @@ it('can switch drivers via using()', function () {
     expect($converter->using('league'))->toBe($converter);
     expect($converter->convert('<h1>Test</h1>'))->toContain('Test');
 });
+
+it('keeps autolink text through conversion and postprocessing', function (string $html, string $expected) {
+    config()->set('markdown-response.postprocessors', [
+        RemoveHtmlTagsPostprocessor::class,
+    ]);
+
+    $converter = app(HtmlToMarkdownConverter::class);
+
+    expect($converter->convert($html))->toBe($expected);
+})->with([
+    'email' => [
+        '<p>Email <a href="mailto:privacy@example.com">privacy@example.com</a> for help.</p>',
+        'Email privacy@example.com for help.',
+    ],
+    'https' => [
+        '<p>Visit <a href="https://example.com/docs">https://example.com/docs</a> for help.</p>',
+        'Visit https://example.com/docs for help.',
+    ],
+    'uppercase https' => [
+        '<p>Visit <a href="HTTPS://example.com/docs">HTTPS://example.com/docs</a> for help.</p>',
+        'Visit HTTPS://example.com/docs for help.',
+    ],
+    'ftp' => [
+        '<p>Download <a href="ftp://example.com/file">ftp://example.com/file</a> now.</p>',
+        'Download ftp://example.com/file now.',
+    ],
+    'named link' => [
+        '<p><a href="mailto:privacy@example.com">Contact us</a> for help.</p>',
+        '[Contact us](mailto:privacy@example.com) for help.',
+    ],
+]);
+
+it('keeps autolinks through the default postprocessor pipeline', function () {
+    expect(Markdown::convert('<p>Email <a href="mailto:privacy@example.com">privacy@example.com</a> or visit <a href="https://example.com">https://example.com</a>.</p>'))
+        ->toBe("Email privacy@example.com or visit https://example.com.\n");
+});
