@@ -2,6 +2,22 @@
 
 All notable changes to `laravel-markdown-response` will be documented in this file.
 
+## 1.2.3 - 2026-10-19
+
+### What's Changed
+
+- Preserve email addresses and URI autolink text when removing HTML tags, including uppercase and non-HTTP schemes.
+- Keep HTML comments containing email addresses hidden instead of exposing them in the Markdown response.
+- Add regression coverage for conversion pipelines and enable read-only pull-request tests, static analysis, and style checks.
+
+Fixes #13. Thanks to @ManukMinasyan for the original fix.
+
+No breaking changes or changes to supported PHP/Laravel versions.
+
+**Validation:** 93 tests and 118 assertions pass across all 16 CI combinations (PHP 8.4/8.5, Laravel 12/13, lowest/stable dependencies, Ubuntu/Windows). PHPStan and Pint pass.
+
+**Full Changelog**: https://github.com/spatie/laravel-markdown-response/compare/1.2.2...1.2.3
+
 ## 1.2.2 - 2026-05-11
 
 ### What's Changed
