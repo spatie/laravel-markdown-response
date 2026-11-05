@@ -28,10 +28,10 @@ jobs:
     runs-on: ${{ matrix.os }}
     timeout-minutes: 5
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest]
-        php: [8.5, 8.4]
+        php: [8.6, 8.5, 8.4]
         laravel: [12.*, 13.*]
         stability: [prefer-lowest, prefer-stable]
         include:
