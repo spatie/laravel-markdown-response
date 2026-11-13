@@ -28,7 +28,7 @@ class MarkdownResponseServiceProvider extends PackageServiceProvider
 
         /** @var \Illuminate\Foundation\Http\Kernel $kernel */
         $kernel = $this->app->make(Kernel::class);
-        $kernel->pushMiddleware(Middleware\RewriteMarkdownUrls::class);
+        $kernel->prependMiddleware(Middleware\RewriteMarkdownUrls::class);
     }
 
     protected function registerDrivers(): void
