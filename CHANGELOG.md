@@ -2,6 +2,21 @@
 
 All notable changes to `laravel-markdown-response` will be documented in this file.
 
+## 1.2.4 - 2026-11-13
+
+### Fixed
+
+- Serve Markdown for .md URLs when ProvideMarkdownResponse is applied globally, by running URL rewriting before the application's global middleware.
+- Add a regression test for global middleware registration.
+
+Thanks to @skybleak333 for the fix in #15.
+
+No breaking changes or changes to supported PHP/Laravel versions.
+
+**Validation:** 94 tests and 122 assertions pass locally on PHP 8.4 / Laravel 13. All 20 CI test combinations and PHPStan/Pint passed on the reviewed PR head. A normal Laravel bootstrap reproduced the HTML response before the fix and verified Markdown output, query preservation, normal HTML, header/user-agent detection, JSON, 404s, and disabled suffix detection after it.
+
+**Full Changelog**: https://github.com/spatie/laravel-markdown-response/compare/1.2.3...1.2.4
+
 ## 1.2.3 - 2026-10-19
 
 ### What's Changed
